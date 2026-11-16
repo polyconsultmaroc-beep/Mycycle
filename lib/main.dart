@@ -15,6 +15,7 @@ void main() async {
 }
 
 const rose = Color(0xFFB85D7B);
+const roseDark = Color(0xFF573847);
 const paleRose = Color(0xFFF8E9EE);
 
 class MyCycleApp extends StatelessWidget {
