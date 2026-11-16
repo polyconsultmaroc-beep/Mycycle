@@ -1,26 +1,30 @@
-# Cahier des charges — MyCycle V1
+# Cahier des charges — MyCycle V2
 
 ## 1. Objectif
-Créer une application mobile Android et iOS, simple et en français, permettant à une seule utilisatrice d'enregistrer ses menstruations et de consulter son historique et une estimation de ses prochaines règles.
+Faire évoluer le prototype mobile Flutter en application Android française de suivi du cycle, avec calendrier des phases, historique modifiable, rappel WhatsApp préparé manuellement et une icône dédiée.
 
 ## 2. Périmètre fonctionnel
-### Inclus dans la V1
+### Inclus dans la V2
 - Écran de verrouillage par code PIN de 4 à 6 chiffres.
 - Création du PIN au premier lancement.
-- Accueil indiquant le jour du cycle et la date estimée des prochaines règles.
-- Enregistrement du premier jour des règles et, si connu, du dernier jour.
+- Tableau de bord indiquant le jour du cycle et les prochaines dates estimées.
+- Calendrier mensuel avec menstruations, phases folliculaire et lutéale, fenêtre fertile estimée et ovulation estimée.
+- Sélection d'une date avec explication de la phase correspondante.
+- Enregistrement et modification des dates de début et de fin des règles.
 - Historique chronologique des périodes enregistrées.
-- Modification de la date de fin lorsqu'elle n'a pas été renseignée.
-- Estimation du cycle basée sur la moyenne des intervalles récents entre débuts de règles ; valeur indicative de 28 jours avant d'avoir assez d'historique.
+- Modification des dates de début et de fin, avec possibilité d'effacer la date de fin.
+- Estimation du cycle basée sur la moyenne des intervalles récents entre débuts de règles ; durée par défaut modifiable avant d'avoir assez d'historique.
+- Préférence de rappel WhatsApp activée par défaut, avec numéro, consentement explicite et aperçu. Le bouton ouvre WhatsApp avec un texte prérempli; aucun envoi automatique.
+- Icône fleur et symbole féminin/cycle approuvée par l'utilisatrice.
 
-### Exclus de la V1
+### Exclus de la V2
 - Comptes, profils multiples et partage avec un partenaire.
 - Cloud, synchronisation et publicité.
-- Suivi de fertilité, contraception, diagnostic ou recommandations médicales.
+- Contraception, diagnostic ou recommandations médicales.
 - Symptômes détaillés, graphiques avancés et notifications.
 
 ## 3. Plateformes et technologies
-- Flutter / Dart pour Android et iOS.
+- Flutter / Dart pour Android.
 - SQLite via sqflite pour l'historique local.
 - flutter_secure_storage pour conserver le sel et le hash du PIN dans le stockage sécurisé du système.
 - crypto pour le hash du PIN.
@@ -32,7 +36,7 @@ Table `periods` :
 - `start_date` : date ISO `YYYY-MM-DD`, obligatoire.
 - `end_date` : date ISO `YYYY-MM-DD`, facultative.
 
-Les données ne sont pas envoyées à un serveur dans cette version.
+Les données du cycle restent locales. Le numéro et le texte ne sont transmis à WhatsApp que lorsque l'utilisatrice a donné son consentement et appuie sur le bouton d'ouverture; l'envoi reste une confirmation manuelle dans WhatsApp.
 
 ## 5. Règles métier
 - La durée d'un cycle correspond à l'écart en jours entre deux dates de début consécutives.
@@ -45,7 +49,7 @@ Les données ne sont pas envoyées à un serveur dans cette version.
 - Interface lisible, avec peu d'écrans et d'actions.
 - Aucun compte obligatoire.
 - Verrouillage PIN à l'ouverture.
-- Aucun transfert réseau des données dans la V1.
+- Aucun transfert réseau automatique des données dans la V2.
 
 ## 7. Critères de recette
 1. Au premier lancement, l'utilisatrice peut créer un PIN de 4 à 6 chiffres.
@@ -54,7 +58,10 @@ Les données ne sont pas envoyées à un serveur dans cette version.
 4. L'utilisatrice peut enregistrer le début et la fin (facultative) d'une période.
 5. Les périodes restent visibles après fermeture et réouverture de l'application.
 6. L'accueil affiche une estimation explicitement qualifiée d'indicative.
-7. L'application fonctionne sans connexion Internet.
+7. L'application fonctionne hors ligne, sauf l'ouverture volontaire de WhatsApp.
+8. Le calendrier colore les cinq phases et affiche une explication pour la date sélectionnée.
+9. L'historique permet de corriger les dates de début et de fin.
+10. Le rappel WhatsApp exige un consentement explicite et n'envoie rien automatiquement.
 
 ## 8. Réserves avant publication
-Le code fourni est un prototype de départ, pas une version certifiée pour publication. Avant diffusion, il faudra notamment renforcer la protection contre les tentatives répétées de PIN, ajouter un parcours de récupération/réinitialisation, chiffrer la base SQLite, tester les migrations et les cas limites de dates, et réaliser des tests sur appareils Android et iOS. La base SQLite de ce prototype n'est pas chiffrée.
+Le code fourni est un prototype de départ, pas une version certifiée pour publication. Avant diffusion, il faudra notamment renforcer la protection contre les tentatives répétées de PIN, ajouter un parcours de récupération/réinitialisation, chiffrer la base SQLite, tester les migrations et les cas limites de dates, et réaliser des tests sur appareils Android. La base SQLite de ce prototype n'est pas chiffrée.
